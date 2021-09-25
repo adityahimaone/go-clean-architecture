@@ -13,12 +13,12 @@ type Domain struct {
 	UpdatedAt time.Time
 }
 
-//fungsi apa saja dari Domain domain ngelakuin hal apa saja-> interface of data layer -> fungsi yg dibutuhkan oleh domain (business logic)
+//fungsi apa saja dari Domain domain ngelakuin hal apa saja-> interface of service layer -> fungsi yg dibutuhkan oleh domain (business logic)
 type Service interface {
 	Append(book *Domain) (*Domain, error)
 	Update(book *Domain, id int) (*Domain, error)
-	FIndByID(id int) (*Domain, error)
-	Available(generalSearch string) []Domain
+	FindByID(id int) (*Domain, error)
+	Available(generalSearch string, availability bool) (*[]Domain, error)
 	Delete(book *Domain, id int) (*Domain, error)
 }
 
@@ -27,6 +27,6 @@ type Repository interface {
 	Insert(book *Domain) (*Domain, error)
 	Update(book *Domain, id int) (*Domain, error)
 	FindByID(id int) (*Domain, error)
-	FindAll(generalSearch string, availability bool) []Domain
+	FindAll(generalSearch string, availability bool) (*[]Domain, error)
 	Delete(book *Domain, id int) (*Domain, error)
 }

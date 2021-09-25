@@ -1,6 +1,6 @@
 package books
 
-//service butuh repository intrface
+//service butuh repository interface
 type serviceBooks struct {
 	repository Repository
 }
@@ -12,18 +12,42 @@ func NewService(repoBook Repository) Service {
 	}
 }
 
-func (servBook *serviceBooks)Append(book *Domain) (*Domain, error){
-
+func (servBook *serviceBooks) Append(book *Domain) (*Domain, error) {
+	respon, err := servBook.repository.Insert(book)
+	if err != nil {
+		return &Domain{}, err
+	}
+	return respon, nil
 }
-func (servBook *serviceBooks)Update(book *Domain, id int) (*Domain, error){
-
+func (servBook *serviceBooks) Update(book *Domain, id int) (*Domain, error) {
+	respon, err := servBook.repository.Update(book, id)
+	if err != nil {
+		return &Domain{}, err
+	}
+	return respon, nil
 }
-func (servBook *serviceBooks)FIndByID(id int) (*Domain, error){
-
+func (servBook *serviceBooks) FindByID(id int) (*Domain, error) {
+	respon, err := servBook.repository.FindByID(id)
+	if err != nil {
+		return &Domain{}, err
+	}
+	return respon, nil
 }
-func (servBook *serviceBooks)Available(generalSearch string) []Domain{
-
+func (servBook *serviceBooks) Available(generalSearch string, availability bool) (*[]Domain, error) {
+	findAvailability := false
+	if availability {
+		findAvailability = true
+	}
+	respon, err := servBook.repository.FindAll(generalSearch, findAvailability)
+	if err != nil {
+		return &[]Domain{}, err
+	}
+	return respon, nil
 }
-func (servBook *serviceBooks)Delete(book *Domain, id int) (*Domain, error){
-
+func (servBook *serviceBooks) Delete(book *Domain, id int) (*Domain, error) {
+	respon, err := servBook.repository.Delete(book, id)
+	if err != nil {
+		return &Domain{}, err
+	}
+	return respon, nil
 }
